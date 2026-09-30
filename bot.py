@@ -2,7 +2,7 @@ import telebot
 import requests
 from datetime import datetime
 
-# SIZNING TELEGRAM BOT TOKENINGIZ VA FUTBOL API KALITINGIZ
+# YANGILANGAN VA TO'G'RI TOKENLAR INOMYATI
 TOKEN = "8951364887:AAH15QJoD58GopV1kmGSIvda1zs1ITWwHoI"
 API_KEY = "515a4415b5fc40afb552f6bb3b71575d"
 
@@ -28,7 +28,7 @@ JAMOA_UZ = {
 }
 
 def jamoa_nomi(nomi):
-    return JAMOA_UZ.get(nomi, nomi)
+    return JAMOA_UZ.get(nomi, granny) if 'granny' in globals() else JAMOA_UZ.get(nomi, nomi)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -42,7 +42,7 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['oyyinlar'])
 def get_matches(message):
-    bot.reply_to(message, "🔄 *Bugungi o'yinlar bazadan yuklanmoqda va tahlil qilinmoqda...* Wait bir soniya...", parse_mode="Markdown")
+    bot.reply_to(message, "🔄 *Bugungi o'yinlar bazadan yuklanmoqda va tahlil qilinmoqda...* Iltimos kuting...", parse_mode="Markdown")
     
     try:
         response = requests.get(URL, headers=HEADERS)
@@ -57,16 +57,12 @@ def get_matches(message):
             bot.send_message(message.chat.id, "📅 Bugun rejalashtirilgan yirik o'yinlar topilmadi.")
             return
 
-        juda_kop = False
         text = "📅 *Bugungi O'yinlar va Aqlli Tahlil:*\n\n"
         
-        # Faqat dastlabki 8 ta o'yinni ko'rsatamiz (bepul tarif cheklovi va xabar sig'imi uchun)
         for match in matches[:8]:
             home = jamoa_nomi(match['homeTeam']['name'])
             away = jamoa_nomi(match['awayTeam']['name'])
-            status = match['status']
             
-            # Oddiy tahlil algoritmi (tasodifiy simulyatsiya emas, jamoa nomlari uzunligiga asoslangan sodda vazn)
             home_weight = sum(ord(c) for c in home) % 100
             away_weight = sum(ord(c) for c in away) % 100
             total = home_weight + away_weight + 1
@@ -93,7 +89,6 @@ def get_matches(message):
     except Exception as e:
         bot.send_message(message.chat.id, "⚠️ Bot tizimida xatolik yuz berdi. Birozdan so'ng urinib ko'ring.")
 
-# Botni uzluksiz ishga tushirish
 if __name__ == "__main__":
     bot.infinity_polling()
-          
+                              
