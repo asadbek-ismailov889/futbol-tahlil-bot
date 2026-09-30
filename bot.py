@@ -2,7 +2,7 @@ import telebot
 import requests
 from datetime import datetime
 
-# YANGILANGAN VA TO'G'RI TOKENLAR INOMYATI
+# 100% TO'G'RI VA YANGILANGAN TOKENLAR
 TOKEN = "8951364887:AAH15QJoD58GopV1kmGSIvda1zs1ITWwHoI"
 API_KEY = "515a4415b5fc40afb552f6bb3b71575d"
 
@@ -28,7 +28,7 @@ JAMOA_UZ = {
 }
 
 def jamoa_nomi(nomi):
-    return JAMOA_UZ.get(nomi, granny) if 'granny' in globals() else JAMOA_UZ.get(nomi, nomi)
+    return JAMOA_UZ.get(nomi, nomi)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
@@ -91,4 +91,4 @@ def get_matches(message):
 
 if __name__ == "__main__":
     bot.infinity_polling()
-                              
+    
