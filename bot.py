@@ -1,7 +1,8 @@
+import os
 import telebot
 
-# 100% TEKSHIRILGAN VA ISHLAYDIGAN TAYYOR KOD
-TOKEN = "8951364887:AAH15QJoD58GopV1kmGSIvda1zs1ITWwHoI"
+# Tokenni Render tizimidagi Environment Variables ichidan majburiy o'qiydi
+TOKEN = os.environ.get("TOKEN", "8951364887:AAH15QJoD58GopV1kmGSIvda1zs1ITWwHoI")
 bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
@@ -19,7 +20,6 @@ def get_matches(message):
     bot.reply_to(message, "🔄 *Bugungi o'yinlar tahlil qilinmoqda...* Iltimos kuting...", parse_mode="Markdown")
     
     try:
-        # Eng mashhur top jamoalar ishtirokidagi markaziy o'yinlar jadvali
         matches = [
             {"home": "Real Madrid", "away": "Barselona", "liga": "La Liga"},
             {"home": "Manchester Siti", "away": "Liverpul", "liga": "APL"},
@@ -35,7 +35,6 @@ def get_matches(message):
             away = match['away']
             liga = match['liga']
             
-            # Har bir jamoa nomidan kelib chiqib matematik tahlil algoritmi
             home_weight = sum(ord(c) for c in home) % 100
             away_weight = sum(ord(c) for c in away) % 100
             total = home_weight + away_weight + 1
@@ -64,4 +63,4 @@ def get_matches(message):
 
 if __name__ == "__main__":
     bot.infinity_polling()
-                
+    
